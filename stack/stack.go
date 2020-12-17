@@ -5,6 +5,7 @@ import "sync"
 // Stack holds an array of items
 type Stack struct {
 	items []interface{}
+	top   interface{}
 	lock  sync.RWMutex
 }
 
@@ -25,6 +26,7 @@ func (s *Stack) IsEmpty() bool {
 func (s *Stack) Push(item interface{}) {
 	s.lock.Lock()
 	defer s.lock.Unlock()
+	s.top = item
 	s.items = append(s.items, item)
 }
 
@@ -39,4 +41,9 @@ func (s *Stack) Pop() (interface{}, bool) {
 	item := (s.items)[index]    //fetch the item at the index(top most item in the stack)
 	s.items = (s.items)[:index] // remove it from the stack by slicing it off
 	return item, true
+}
+
+// Top returns top of stack
+func (s *Stack) Top() interface{} {
+	return s.top
 }
