@@ -32,3 +32,25 @@ func (q *Queue) EnQueue(item interface{}) {
 func (q *Queue) IsEmpty() bool {
 	return first == nil
 }
+func nextGreaterElement(nums1 []int, nums2 []int) []int {
+	var results []int
+	var found bool
+	for i, num1 := range nums1 {
+		var val int
+		for j := i; j < len(nums2); j++ {
+			if nums2[j] > num1 {
+				val = nums2[j]
+				found = true
+				break
+			}
+		}
+		if found {
+			results = append(results, val)
+
+		} else {
+			results = append(results, -1)
+
+		}
+	}
+	return results
+}

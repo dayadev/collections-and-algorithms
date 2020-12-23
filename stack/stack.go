@@ -1,49 +1,39 @@
 package stack
 
-import "sync"
-
-// Stack holds an array of items
+// Stack ...
 type Stack struct {
-	items []interface{}
-	top   interface{}
-	lock  sync.RWMutex
+	items []int
 }
 
-// New creates a stack
-func New() *Stack {
-	s := &Stack{
-		items: []interface{}{},
+// Constructor ...
+func Constructor() Stack {
+	return Stack{
+		items: []int{},
 	}
-	return s
 }
 
-// IsEmpty returns if the stack is empty or not
+// Push ...
+func (s *Stack) Push(x int) {
+	s.items = append(s.items, x)
+}
+
+// Pop ...
+func (s *Stack) Pop() int {
+	if len(s.items) == 0 {
+		panic("Empty Stack")
+	}
+	index := len(s.items) - 1
+	item := s.items[index]
+	s.items = s.items[:index]
+	return item
+}
+
+// IsEmpty ...
 func (s *Stack) IsEmpty() bool {
 	return len(s.items) == 0
 }
 
-// Push pushes item to top of the stack
-func (s *Stack) Push(item interface{}) {
-	s.lock.Lock()
-	defer s.lock.Unlock()
-	s.top = item
-	s.items = append(s.items, item)
-}
-
-// Pop pops the top most item from the stack
-func (s *Stack) Pop() (interface{}, bool) {
-	s.lock.Lock()
-	defer s.lock.Unlock()
-	if s.IsEmpty() {
-		return nil, false
-	}
-	index := len(s.items) - 1   //fetch the index of top most item in the stack
-	item := (s.items)[index]    //fetch the item at the index(top most item in the stack)
-	s.items = (s.items)[:index] // remove it from the stack by slicing it off
-	return item, true
-}
-
-// Top returns top of stack
-func (s *Stack) Top() interface{} {
-	return s.top
+// Peek ...
+func (s *Stack) Peek() int {
+	return s.items[len(s.items)-1]
 }
